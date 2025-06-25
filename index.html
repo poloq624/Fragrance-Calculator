@@ -13,7 +13,7 @@
       background: #fdf6f0;
       color: #333;
     }
-    input, button {
+    input, select, button {
       margin: 10px;
       padding: 8px;
       font-size: 1em;
@@ -27,18 +27,26 @@
 <body>
   <h1>Fragrance Calculator</h1>
   <p>Enter your wax weight and fragrance percentage:</p>
-  <label>Grams of Wax: <input type="number" id="wax"></label><br>
+  <label>Grams or Ounces:
+    <select id="unit">
+      <option value="grams">Grams</option>
+      <option value="ounces">Ounces</option>
+    </select>
+  </label><br>
+  <label>Wax Amount: <input type="number" id="wax"></label><br>
   <label>Fragrance %: <input type="number" id="fragrancePercent"></label><br>
   <button onclick="calculate()">Calculate</button>
   <p id="result"></p>
 
   <script>
     function calculate() {
+      const unit = document.getElementById('unit').value;
       const wax = parseFloat(document.getElementById('wax').value);
       const percent = parseFloat(document.getElementById('fragrancePercent').value);
       if (!isNaN(wax) && !isNaN(percent)) {
         const fragrance = (wax * percent / 100).toFixed(2);
-        document.getElementById('result').innerText = `You need ${fragrance}g of fragrance oil.`;
+        const unitLabel = unit === "grams" ? "grams" : "ounces";
+        document.getElementById('result').innerText = `You need ${fragrance} ${unitLabel} of fragrance oil.`;
       } else {
         document.getElementById('result').innerText = 'Please enter valid numbers.';
       }
