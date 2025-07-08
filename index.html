@@ -18,7 +18,7 @@
       padding: 8px;
       font-size: 1em;
     }
-    #result {
+    #result, #total {
       margin-top: 20px;
       font-weight: bold;
     }
@@ -37,6 +37,7 @@
   <label>Fragrance %: <input type="number" id="fragrancePercent"></label><br>
   <button onclick="calculate()">Calculate</button>
   <p id="result"></p>
+  <p id="total"></p>
 
   <script>
     function calculate() {
@@ -45,12 +46,15 @@
       const percent = parseFloat(document.getElementById('fragrancePercent').value);
       if (!isNaN(wax) && !isNaN(percent) && percent > 0 && percent < 100) {
         const totalWeight = wax / (1 - (percent / 100));
-        const fragrance = (totalWeight * (percent / 100)).toFixed(2);
+        const fragrance = totalWeight * (percent / 100);
         const unitLabel = unit === "grams" ? "grams" : "ounces";
         document.getElementById('result').innerText =
-          `You need ${fragrance} ${unitLabel} of fragrance oil.`;
+          `You need ${fragrance.toFixed(2)} ${unitLabel} of fragrance oil.`;
+        document.getElementById('total').innerText =
+          `Total batch weight: ${(wax + fragrance).toFixed(2)} ${unitLabel}.`;
       } else {
         document.getElementById('result').innerText = 'Please enter valid numbers (Fragrance % must be between 0 and 100).';
+        document.getElementById('total').innerText = '';
       }
     }
   </script>
